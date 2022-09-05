@@ -7,9 +7,9 @@ const Account = () => {
   return (
     <div className="Account">
       <h1>회원 관련 페이지</h1>
-      {LoginForm}
-      {SignupForm}
-      {UserProfile}
+      <LoginForm />
+      <SignupForm />
+      <UserProfile />
     </div>
   );
 };

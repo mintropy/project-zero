@@ -5,7 +5,7 @@ const Blog = () => {
   return (
     <div className="Blog">
       <h1>Blog Page</h1>
-      {BlogPostList}
+      <BlogPostList />
     </div>
   );
 };
