@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     "users",
     "blogs",
     # third party apps
+    "rest_framework",
+    "drf_spectacular",
     # django apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -136,5 +138,14 @@ AUTH_USER_MODEL = "users.User"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Project Zero API",
+    "DESCRIPTION": "Zero, blog platform",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # OTHER SETTINGS
 }
