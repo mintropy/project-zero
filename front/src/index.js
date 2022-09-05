@@ -6,16 +6,20 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "./Main/Main";
 import Blog from "./Blog/Blog";
 import Account from "./Account/Account";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
+    <Header />
     <h1>Project Zero</h1>
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/blog/" element={<Blog />} />
       <Route path="/account/" element={<Account />} />
     </Routes>
+    <Footer />
   </BrowserRouter>
 );
 
