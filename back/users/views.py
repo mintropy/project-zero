@@ -23,12 +23,16 @@ class UserViewSet(ViewSet):
         return Response(data=serialzier.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve_profile(self, request):
-        user = User.objects.get(username="admin")
+        user = request.user
+        if user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         serializer = UserSerializer(instance=user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update_profile(self, request):
-        user = User.objects.get(username="admin")
+        user = request.user
+        if user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         data = {
             "username": user.username,
             "password": user.password,
