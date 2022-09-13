@@ -6,6 +6,21 @@ from .models import User
 from .serializers import UserSerializer
 
 
+def validate(type: str, string: str) -> bool:
+    if type == "username" and 2 > len(string) > 10:
+        return False
+    if type == "password" and 6 > len(string) > 20:
+        return False
+    if all(
+        [
+            any([s.isdigit() for s in string]),
+            any([s.isupper() for s in string]) or any([s.islower() for s in string]),
+        ]
+    ):
+        return True
+    return False
+
+
 # Create your views here.
 class UserViewSet(ViewSet):
     serializer_class = UserSerializer
@@ -16,6 +31,13 @@ class UserViewSet(ViewSet):
             "username": request.data.get("username", ""),
             "password": request.data.get("password", ""),
         }
+        if not validate("username", data["username"]) or not validate(
+            "password", data["password"]
+        ):
+            return Response(
+                data={"error": "validation error"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         serialzier = UserSerializer(data=data)
         if serialzier.is_valid():
             serialzier.save()
