@@ -3,7 +3,12 @@ from django.urls import path
 from .views import BlogViewSet, BlogPostViewSet
 
 
-blog_list = BlogViewSet.as_view({"post": "create_blog"})
+blog_list = BlogViewSet.as_view(
+    {
+        "get": "list_blog",
+        "post": "create_blog",
+    }
+)
 blog_detail = BlogViewSet.as_view(
     {
         "get": "retrieve_blog",
@@ -27,14 +32,14 @@ blog_post_detail = BlogPostViewSet.as_view(
 
 urlpatterns = [
     path("blog/", blog_list, name="blog list"),
-    path("blog/<str:name>/", blog_detail, name="blog detail"),
+    path("blog/<str:blog_name>/", blog_detail, name="blog detail"),
     path(
-        "blog/<str:name>/post",
+        "blog/<str:blog_name>/post",
         blog_post_list,
         name="blog post list",
     ),
     path(
-        "blog/<str:name>/post/<int:post_id>/",
+        "blog/<str:blog_name>/post/<int:post_id>/",
         blog_post_detail,
         name="blog post detail",
     ),
