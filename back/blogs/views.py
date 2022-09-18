@@ -3,10 +3,14 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.views import status
 
 from .models import Blog, BlogPost
+from .serializers import BlogSerializer, BlogPostSerialzier
 
 # Create your views here.
 class BlogViewSet(ViewSet):
     model = Blog
+
+    def list_blog(self, request):
+        return Response(status=status.HTTP_200_OK)
 
     def create_blog(self, request):
         return Response(status=status.HTTP_201_CREATED)
