@@ -11,21 +11,23 @@ import Footer from "./Footer";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <Header />
-    <h1>Project Zero</h1>
-    <Link to={"/"}>Main</Link>
-    <br />
-    <Link to={"/blog/"}>Blog</Link>
-    <br />
-    <Link to={"/account/"}>account</Link>
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/blog/" element={<Blog />} />
-      <Route path="/account/" element={<Account />} />
-    </Routes>
-    <Footer />
-  </BrowserRouter>
+  <React.StrictMode>
+    <BrowserRouter>
+      <Header />
+      <h1>Project Zero</h1>
+      <Link to={"/"}>Main</Link>
+      <br />
+      <Link to={"/blog/"}>Blog</Link>
+      <br />
+      <Link to={"/account/"}>account</Link>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/blog/" element={<Blog />} />
+        <Route path="/account/" element={<Account />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
