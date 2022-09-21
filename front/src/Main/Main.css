@@ -1,0 +1,15 @@
+.Main {
+  display: flex;
+}
+
+.MainBlogList {
+  border: solid 3px black;
+  margin: 3px;
+  flex-grow: 3;
+}
+
+.MainAccountInfo {
+  border: solid 3px black;
+  margin: 3px;
+  flex-grow: 1;
+}
