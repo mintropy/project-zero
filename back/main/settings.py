@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # third party apps
     "rest_framework",
     "drf_spectacular",
+    "corsheaders",
     # django apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -49,6 +50,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    # django-cors-headers
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -142,6 +145,8 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+# DEF-spectacular
+
 SPECTACULAR_SETTINGS = {
     "TITLE": "Project Zero API",
     "DESCRIPTION": "Zero, blog platform",
@@ -153,3 +158,7 @@ SPECTACULAR_SETTINGS = {
         "filter": True,
     },
 }
+
+# django-cors-headers
+
+CORS_ALLOW_ALL_ORIGINS = True
