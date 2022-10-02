@@ -52,19 +52,59 @@ class BlogViewSet(ViewSet):
 
 
 class BlogPostViewSet(ViewSet):
-    model = BlogPost
+    serializer_class = BlogPostSerialzier
+    query_set = BlogPost.objects.all()
 
-    def list_post(self, request):
-        return Response(status=status.HTTP_200_OK)
+    def list_post(self, request, blog_name):
+        blog = get_object_or_404(Blog, name=blog_name)
+        blog_posts = BlogPost.objects.filter(blog=blog)
+        serializer = BlogPostSerialzier(blog_posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def create_post(self, request):
-        return Response(status=status.HTTP_201_CREATED)
+    def create_post(self, request, blog_name):
+        user = request.user
+        if user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        blog = get_object_or_404(Blog, name=blog_name)
+        data = {
+            "blog": blog.id,
+            "title": request.data.get("title", ""),
+            "content": request.data.get("content", ""),
+        }
+        serializer = BlogPostSerialzier(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def retrieve_post(self, request):
-        return Response(status=status.HTTP_200_OK)
+    def retrieve_post(self, request, blog_name, post_id):
+        blog = get_object_or_404(Blog, name=blog_name)
+        post = get_object_or_404(BlogPost, blog=blog.id, id=post_id)
+        serializer = BlogPostSerialzier(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def update_post(self, request):
-        return Response(status=status.HTTP_201_CREATED)
+    def update_post(self, request, blog_name, post_id):
+        user = request.user
+        if user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        blog = get_object_or_404(Blog, name=blog_name)
+        post = get_object_or_404(BlogPost, blog=blog.id, id=post_id)
+        data = {
+            "blog": blog.id,
+            "title": request.data.get("title", ""),
+            "content": request.data.get("content", ""),
+        }
+        serializer = BlogPostSerialzier(post, data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy_post(self, request):
+    def destroy_post(self, request, blog_name, post_id):
+        user = request.user
+        if user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        blog = get_object_or_404(Blog, name=blog_name)
+        post = get_object_or_404(BlogPost, blog=blog.id, id=post_id)
+        post.delete()
         return Response(status.HTTP_204_NO_CONTENT)
