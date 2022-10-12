@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import MainAccountInfo from "./MainAccountInfo";
 import MainBlogList from "./MainBlogList";
 import "./Main.css";
 
 const Main = () => {
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    password: "",
+  });
+
   return (
     <div className="Main">
       <MainBlogList />
-      <MainAccountInfo />
+      <MainAccountInfo userInfo={userInfo} setUserInfo={setUserInfo} />
     </div>
   );
 };
