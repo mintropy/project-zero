@@ -3,7 +3,7 @@ import MainAccountInfo from "./MainAccountInfo";
 import MainBlogList from "./MainBlogList";
 import "./Main.css";
 
-const Main = () => {
+const Main = ({ isLogin, toggleLogin }) => {
   const [userInfo, setUserInfo] = useState({
     username: "",
     password: "",
@@ -12,7 +12,12 @@ const Main = () => {
   return (
     <div className="Main">
       <MainBlogList />
-      <MainAccountInfo userInfo={userInfo} setUserInfo={setUserInfo} />
+      <MainAccountInfo
+        userInfo={userInfo}
+        setUserInfo={setUserInfo}
+        isLogin={isLogin}
+        toggleLogin={toggleLogin}
+      />
     </div>
   );
 };
