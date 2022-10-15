@@ -1,7 +1,6 @@
 import axios from "axios";
 import React from "react";
 import "./Main.css";
-import getRefreshToken from "../JWTHandler.js";
 
 const MainAccountInfo = ({ userInfo, setUserInfo, isLogin, toggleLogin }) => {
   const handleChange = (e) => {
@@ -28,9 +27,14 @@ const MainAccountInfo = ({ userInfo, setUserInfo, isLogin, toggleLogin }) => {
       .then((access) => {
         const username = getUserInfo(access);
         toggleLogin();
+        window.localStorage.setItem("isLogin", isLogin);
         return username;
       });
     return res;
+  };
+
+  const toggleLogout = () => {
+    toggleLogin();
   };
 
   const getUserInfo = async (access) => {
@@ -50,7 +54,10 @@ const MainAccountInfo = ({ userInfo, setUserInfo, isLogin, toggleLogin }) => {
     <div className="MainAccountInfo">
       <h1>회원 관리</h1>
       {isLogin ? (
-        <div>{userInfo.username} 님</div>
+        <div>
+          <p>{userInfo.username} 님</p>
+          <button onClick={toggleLogout}>logout</button>
+        </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <input

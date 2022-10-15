@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainAccountInfo from "./MainAccountInfo";
 import MainBlogList from "./MainBlogList";
 import "./Main.css";
