@@ -40,6 +40,8 @@ class BlogViewSet(ViewSet):
         if user.is_anonymous:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         blog = get_object_or_404(Blog, name=blog_name)
+        if blog.user != user:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         data = {
             "user": user.id,
             "name": request.data.get("name", blog.name),
@@ -88,6 +90,8 @@ class BlogPostViewSet(ViewSet):
         if user.is_anonymous:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         blog = get_object_or_404(Blog, name=blog_name)
+        if blog.user != user:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         post = get_object_or_404(BlogPost, blog=blog.id, id=post_id)
         data = {
             "blog": blog.id,
