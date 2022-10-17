@@ -5,6 +5,7 @@ from rest_framework.views import status
 
 from .models import Blog, BlogPost
 from .serializers import BlogSerializer, BlogPostSerialzier
+from .methods import is_user_blog
 
 # Create your views here.
 class BlogViewSet(ViewSet):
@@ -40,7 +41,7 @@ class BlogViewSet(ViewSet):
         if user.is_anonymous:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         blog = get_object_or_404(Blog, name=blog_name)
-        if blog.user != user:
+        if not is_user_blog(user, blog):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         data = {
             "user": user.id,
@@ -90,7 +91,7 @@ class BlogPostViewSet(ViewSet):
         if user.is_anonymous:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         blog = get_object_or_404(Blog, name=blog_name)
-        if blog.user != user:
+        if not is_user_blog(user, blog):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         post = get_object_or_404(BlogPost, blog=blog.id, id=post_id)
         data = {
@@ -107,6 +108,8 @@ class BlogPostViewSet(ViewSet):
     def destroy_post(self, request, blog_name, post_id):
         user = request.user
         if user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        if not is_user_blog(user, blog):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         blog = get_object_or_404(Blog, name=blog_name)
         post = get_object_or_404(BlogPost, blog=blog.id, id=post_id)
